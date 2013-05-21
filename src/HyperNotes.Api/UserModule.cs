@@ -1,4 +1,5 @@
-﻿using Nancy;
+﻿using System.Linq;
+using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.ModelBinding;
 using Nancy.TinyIoc;
@@ -7,6 +8,8 @@ using Raven.Client;
 using Raven.Client.Document;
 
 namespace HyperNotes.Api {
+    // TODO: Validation, only auth user can update, delete
+    // TODO: Authentication, authenticate updates, deletes
     public class UserModule : NancyModule {
         public UserModule() {
             Get["/users"] = _ => {
@@ -15,8 +18,19 @@ namespace HyperNotes.Api {
                     return View["Users.html", users];
                 }
             };
+
+            Get["/users/{name}"] = param => {
+                using (var db = Raven.Db.OpenSession()) {
+                    var n = (string) param.name;
+                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(n));
+                    if (user != null)
+                        return View["User.html", user];
+                    else
+                        return 404;
+                }
+            };
             
-            Put["/users/{name}"] = data => {
+            Post["/users"] = data => {
                 var user = this.Bind<NewUserModel>();
 
                 using (var db = Raven.Db.OpenSession()) {
@@ -24,7 +38,39 @@ namespace HyperNotes.Api {
                     db.SaveChanges();
                 }
 
+                Context.Response.Headers.Add("location", "/users/" + user.Name);
                 return 201;
+            };
+
+            Put["/users/{name}"] = param => {
+                using (var db = Raven.Db.OpenSession()) {
+                    var putUser = this.Bind<NewUserModel>();
+                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(putUser.Name));
+                    if (user != null) {
+                        user.Name = putUser.Name;
+                        user.Email = putUser.Email;
+                        db.Store(user);
+                        db.SaveChanges();
+                        return View["User.html", user];
+                    } else {
+                        return 404;
+                    }
+                }
+            };
+
+            Delete["/users/{name}"] = param => {
+                using (var db = Raven.Db.OpenSession()) {
+                    var deleteUser = this.Bind<NewUserModel>();
+                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(deleteUser.Name));
+                    if (user != null) {
+                        db.Delete(user);
+                        db.SaveChanges();
+                        return 200;
+                    } else {
+                        return 404;
+                    }
+                }
+                
             };
         }
     }

@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>User @Model.Name</title>
+    <link href="/users" rel="collection"/>
+</head>
+<body>
+    <form action="/users/@Model.Name" method="put" enctype="application/x-www-form-urlencoded">
+        <label for="email">Email:</label>
+        <input name="email" type="email" id="email" value="@Model.Email"/>
+        <label for="password">Password:</label>
+        <input name="password" type="password" id="password" value="@Model.Password"/>
+        <input type="submit" value="update"/>
+    </form>
+    
+    <form action="/users/@Model.Name" method="delete">
+        <input type="submit" value="delete"/>
+    </form>
+
+    <div class="vcard">
+        <span class="fn nickname">@Model.Name</span>   
+        <a href="mailto:@Model.Email" class="email">@Model.Email</a>
+        <span>@Model.Password</span>
+    </div>
+</body>
+</html>

@@ -1,18 +1,19 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Users</title>
 </head>
 <body>
-    <form action="/users/{name}" method="put" enctype="application/x-www-form-urlencoded">
+    <form action="/users" method="post" enctype="application/x-www-form-urlencoded">
         <label for="name">Name:</label>
         <input name="name" type="text" id="name"/>
         <label for="email">Email:</label>
         <input name="email" type="email" id="email"/>
         <label for="password">Password:</label>
         <input name="password" type="password" id="password"/>
+        <input type="submit" value="create"/>
     </form>
     
     <ul>
