@@ -51,15 +51,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
+    <Compile Include="Users\NewUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserModule.cs" />
+    <Compile Include="Infrastructure\Raven.cs" />
+    <Compile Include="Infrastructure\Startup.cs" />
+    <Compile Include="Users\UserModel.cs" />
+    <Compile Include="Users\UserModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="User.html" />
-    <Content Include="Users.html" />
+    <Content Include="Users\User.html" />
+    <Content Include="Users\Users.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
