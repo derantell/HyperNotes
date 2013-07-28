@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoMapper;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
@@ -10,23 +11,22 @@ namespace HyperNotes.Api.Users {
     // TODO: Authentication, authenticate updates, deletes
     public class UserModule : NancyModule {
         public UserModule() {
-            this.RequiresAuthentication();
 
             Get["/users"] = _ => {
-                using (var db = Infrastructure.Raven.Db.OpenSession()) {
-                    var users = db.Query<NewUserModel>();
-                    return View["Users.html", users];
+                using (var db = Db.OpenSession()) {
+                    var users = db.Query<UserModel>();
+                    return View["Users/Users", users];
                 }
             };
 
             Get["/users/{name}"] = param => {
                 using (var db = Db.OpenSession()) {
                     var n = (string) param.name;
-                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(n));
+                    var user = db.Query<UserModel>().FirstOrDefault(u => u.UserName.Equals(n));
                     if (user != null) {
                         return Negotiate
                             .WithModel(user)
-                            .WithView("user");
+                            .WithView("Users/user");
                     }
                     
                     return HttpStatusCode.NotFound;
@@ -34,8 +34,7 @@ namespace HyperNotes.Api.Users {
             };
             
             Post["/users"] = data => {
-                var user = this.Bind<NewUserModel>();
-
+                var user = Mapper.Map<NewUserModel, UserModel>(this.Bind<NewUserModel>());
                 using (var db = Db.OpenSession()) {
                     db.Store(user);
                     db.SaveChanges();
@@ -47,7 +46,7 @@ namespace HyperNotes.Api.Users {
                         .WithStatusCode( HttpStatusCode.Created )
                         .WithContentType(null)
                         .WithHeaders(
-                            new { header = "Location", value = "/users/" + user.Name},
+                            new { header = "Location", value = "/users/" + user.UserName},
                             new { header = "Last-Modified", value = modified.ToString("r")},
                             new { header = "ETag", value = etag}
                         );
@@ -58,10 +57,10 @@ namespace HyperNotes.Api.Users {
 
             Put["/users/{name}"] = param => {
                 using (var db = Db.OpenSession()) {
-                    var putUser = this.Bind<NewUserModel>();
-                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(putUser.Name));
+                    var putUser = this.Bind<UserModel>();
+                    var user = db.Query<UserModel>().FirstOrDefault(u => u.UserName.Equals(putUser.UserName));
                     if (user != null) {
-                        user.Name = putUser.Name;
+                        user.UserName = putUser.UserName;
                         user.Email = putUser.Email;
                         db.Store(user);
                         db.SaveChanges();
@@ -74,21 +73,21 @@ namespace HyperNotes.Api.Users {
 
             Delete["/users/{name}"] = param => {
                 using (var db = Db.OpenSession()) {
-                    var deleteUser = this.Bind<NewUserModel>();
-                    var user = db.Query<NewUserModel>().FirstOrDefault(u => u.Name.Equals(deleteUser.Name));
+                    var userName = (string)param.name;
+                    var user = db.Query<UserModel>().FirstOrDefault(u => u.UserName.Equals(userName));
                     if (user != null) {
                         db.Delete(user);
                         db.SaveChanges();
-                        return 200;
+                        return HttpStatusCode.OK;
                     } else {
-                        return 404;
+                        return HttpStatusCode.NotFound;
                     }
                 }
             };
         }
 
         private static IDocumentStore Db {
-            get { return Infrastructure.Raven.Db; }
+            get { return Infrastructure.RavenDb.Store; }
         }
        
     }

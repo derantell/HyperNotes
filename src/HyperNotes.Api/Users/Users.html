@@ -6,9 +6,9 @@
     <title>Users</title>
 </head>
 <body>
-    <form action="/users" method="post" enctype="application/x-www-form-urlencoded">
-        <label for="name">Name:</label>
-        <input name="name" type="text" id="name"/>
+    <form action="/users" method="post" enctype="application/x-www-form-urlencoded" title="Create new user">
+        <label for="username">Name:</label>
+        <input name="username" type="text" id="username"/>
         <label for="email">Email:</label>
         <input name="email" type="email" id="email"/>
         <label for="password">Password:</label>
@@ -16,10 +16,10 @@
         <input type="submit" value="create"/>
     </form>
     
-    <ul>
+    <ul title="users">
         @Each
         <li>
-            <a href="/users/@Current.Name">@Current.Name</a>
+            <a href="/users/@Current.UserName">@Current.UserName</a>
         </li>
         @EndEach
     </ul>

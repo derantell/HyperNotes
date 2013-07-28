@@ -1,4 +1,6 @@
-﻿using Nancy;
+﻿using AutoMapper;
+using HyperNotes.Api.Users;
+using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 
@@ -8,7 +10,9 @@ namespace HyperNotes.Api.Infrastructure {
         {
             base.ApplicationStartup(container, pipelines);
 
-            Raven.Init("http://derantell-pc:8080");
+            RavenDb.Init("http://derantell-pc:8080");
+            
+            Mapper.CreateMap<NewUserModel, UserModel>();
         }
     }
 }

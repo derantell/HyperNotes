@@ -1,8 +1,12 @@
-﻿namespace HyperNotes.Api.Users {
-    public class UserModel {
+﻿using System.Collections.Generic;
+using Nancy.Security;
+
+namespace HyperNotes.Api.Users {
+    public class UserModel : IUserIdentity {
         public string Id { get; set; }
-        public string Name { get; set; }
         public string Email { get; set; }
         public string PwHash { get; set; }
+        public string UserName { get; set; }
+        public IEnumerable<string> Claims { get; set; }
     }
 }
