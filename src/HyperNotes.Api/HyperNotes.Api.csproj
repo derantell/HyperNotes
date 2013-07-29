@@ -54,7 +54,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionJson\Collection.cs" />
+    <Compile Include="CollectionJson\CollectionJson.cs" />
+    <Compile Include="CollectionJson\CollectionJsonDefinition.cs" />
+    <Compile Include="CollectionJson\Data.cs" />
+    <Compile Include="CollectionJson\Error.cs" />
+    <Compile Include="CollectionJson\Item.cs" />
+    <Compile Include="CollectionJson\Link.cs" />
+    <Compile Include="CollectionJson\Query.cs" />
+    <Compile Include="CollectionJson\Template.cs" />
+    <Compile Include="CollectionJson\UserCollectionDefinition.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
+    <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
     <Compile Include="Users\NewUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\RavenDb.cs" />

@@ -15,7 +15,9 @@ namespace HyperNotes.Api.Users {
             Get["/users"] = _ => {
                 using (var db = Db.OpenSession()) {
                     var users = db.Query<UserModel>();
-                    return View["Users/Users", users];
+                    return Negotiate
+                        .WithModel(users)
+                        .WithView("Users/Users");
                 }
             };
 
