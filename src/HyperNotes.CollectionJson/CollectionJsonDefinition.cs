@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HyperNotes.Api.CollectionJson {
+namespace HyperNotes.CollectionJson {
     public abstract class CollectionJsonDefinition<TModel> {
         public CollectionJson CreateCollection(IEnumerable<TModel> collection) {
             var builder = GetBuilder();

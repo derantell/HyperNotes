@@ -54,15 +54,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionJson\Collection.cs" />
-    <Compile Include="CollectionJson\CollectionJson.cs" />
-    <Compile Include="CollectionJson\CollectionJsonDefinition.cs" />
-    <Compile Include="CollectionJson\Data.cs" />
-    <Compile Include="CollectionJson\Error.cs" />
-    <Compile Include="CollectionJson\Item.cs" />
-    <Compile Include="CollectionJson\Link.cs" />
-    <Compile Include="CollectionJson\Query.cs" />
-    <Compile Include="CollectionJson\Template.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
     <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
     <Compile Include="Users\Json\UserCollectionDefinition.cs" />
@@ -80,7 +71,12 @@
     <Content Include="Users\Html\User.html" />
     <Content Include="Users\Html\Users.html" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\HyperNotes.CollectionJson\HyperNotes.CollectionJson.csproj">
+      <Project>{653933a3-1e2a-41be-9c48-2f6b904cf408}</Project>
+      <Name>HyperNotes.CollectionJson</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

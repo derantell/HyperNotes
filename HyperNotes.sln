@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperNotes.Api", "src\HyperNotes.Api\HyperNotes.Api.csproj", "{5CEC3135-2F41-436D-9E40-0EA278C8271E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperNotes.CollectionJson", "src\HyperNotes.CollectionJson\HyperNotes.CollectionJson.csproj", "{653933A3-1E2A-41BE-9C48-2F6B904CF408}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{5CEC3135-2F41-436D-9E40-0EA278C8271E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CEC3135-2F41-436D-9E40-0EA278C8271E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CEC3135-2F41-436D-9E40-0EA278C8271E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653933A3-1E2A-41BE-9C48-2F6B904CF408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653933A3-1E2A-41BE-9C48-2F6B904CF408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653933A3-1E2A-41BE-9C48-2F6B904CF408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653933A3-1E2A-41BE-9C48-2F6B904CF408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

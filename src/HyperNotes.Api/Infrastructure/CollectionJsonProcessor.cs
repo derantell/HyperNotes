@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HyperNotes.Api.CollectionJson;
+using HyperNotes.CollectionJson;
 using Nancy;
 using Nancy.Responses;
 using Nancy.Responses.Negotiation;

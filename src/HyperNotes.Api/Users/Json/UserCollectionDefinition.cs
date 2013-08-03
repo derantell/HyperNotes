@@ -1,4 +1,4 @@
-using HyperNotes.Api.CollectionJson;
+using HyperNotes.CollectionJson;
 
 namespace HyperNotes.Api.Users.Json {
     public class UserCollectionDefinition : CollectionJsonDefinition<UserModel> {
