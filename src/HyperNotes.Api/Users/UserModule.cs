@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using HyperNotes.CollectionJson;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
@@ -35,26 +36,27 @@ namespace HyperNotes.Api.Users {
                 }
             };
             
-            Post["/users"] = data => {
-                var user = Mapper.Map<NewUserModel, UserModel>(this.Bind<NewUserModel>());
-                using (var db = Db.OpenSession()) {
+            Post["/users"] = _ => {
+                var newUser = this.Bind<NewUserModel>();
+                var user = Mapper.Map<NewUserModel, UserModel>(newUser);
+
+                using (var db = Db.OpenSession())
+                {
                     db.Store(user);
                     db.SaveChanges();
                     var metadata = db.Advanced.GetMetadataFor(user);
                     var modified = metadata.Value<DateTime>("Last-Modified");
                     var etag = metadata.Value<string>("@etag");
-                    
+
                     return new Response()
-                        .WithStatusCode( HttpStatusCode.Created )
+                        .WithStatusCode(HttpStatusCode.Created)
                         .WithContentType(null)
                         .WithHeaders(
-                            new { header = "Location", value = "/users/" + user.UserName},
-                            new { header = "Last-Modified", value = modified.ToString("r")},
-                            new { header = "ETag", value = etag}
+                            new { header = "Location", value = "/users/" + user.UserName },
+                            new { header = "Last-Modified", value = modified.ToString("r") },
+                            new { header = "ETag", value = etag }
                         );
                 }
-                
-               
             };
 
             Put["/users/{name}"] = param => {

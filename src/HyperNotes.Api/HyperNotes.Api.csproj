@@ -54,6 +54,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\CollectionJsonBodyDeserializer.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
     <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
     <Compile Include="Users\Json\UserCollectionDefinition.cs" />
