@@ -9,6 +9,7 @@ using Nancy.Responses.Negotiation;
 
 namespace HyperNotes.Api.Infrastructure {
     public class CollectionJsonProcessor : IResponseProcessor {
+
         public CollectionJsonProcessor(IEnumerable<ISerializer> serializers) {
             _serializer = serializers.FirstOrDefault(s => s.CanSerialize("application/json"));
         }
@@ -20,7 +21,8 @@ namespace HyperNotes.Api.Infrastructure {
             };
         }
 
-        public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
+        public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context)
+        {
             dynamic definition = CollectionJsonDefinitionLocator.Find(model);
 
             var collection = definition.CreateCollection(model);
@@ -40,6 +42,7 @@ namespace HyperNotes.Api.Infrastructure {
 
             return isExactResult ? MatchResult.ExactMatch : MatchResult.NoMatch;
         }
+
 
         private readonly ISerializer _serializer;
         private const string CollectionJson = "application/vnd.collection+json";

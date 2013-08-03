@@ -17,7 +17,7 @@ namespace HyperNotes.Api.Users {
                     var users = db.Query<UserModel>();
                     return Negotiate
                         .WithModel(users)
-                        .WithView("Users/Users");
+                        .WithView("Users/Html/Users");
                 }
             };
 
@@ -28,8 +28,8 @@ namespace HyperNotes.Api.Users {
                     if (user != null) {
                         return Negotiate
                             .WithModel(user)
-                            .WithView("Users/user");
-                    }
+                            .WithView("Users/Html/User");
+                        }
                     
                     return HttpStatusCode.NotFound;
                 }

@@ -1,6 +1,6 @@
-using HyperNotes.Api.Users;
+using HyperNotes.Api.CollectionJson;
 
-namespace HyperNotes.Api.CollectionJson {
+namespace HyperNotes.Api.Users.Json {
     public class UserCollectionDefinition : CollectionJsonDefinition<UserModel> {
 
         protected override CollectionBuilder<UserModel> GetBuilder() {
