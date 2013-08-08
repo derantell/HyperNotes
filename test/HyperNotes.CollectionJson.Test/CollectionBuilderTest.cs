@@ -58,7 +58,21 @@ namespace HyperNotes.CollectionJson.Test {
             [Fact]
             public void should_add_generators_to_builder() {
                 var builder = DefineCollection.For<TestModel>( CollectionHref);
-                var models = _fixture.CreateMany<TestModel>();
+                var models = _fixture.CreateMany<TestModel>(3);
+
+                builder.Items(
+                    href: model => CollectionHref + "/" + model.Name,
+                    links: model => new[] {new Link()},
+                    data: model => new[] {
+                        new Data {name = "name", prompt = "Name", value = model.Name},
+                        new Data {name = "age", prompt = "Age", value = model.Age.ToString()},
+                        new Data {name = "created", prompt = "Creation date", value = model.CreationDate.ToString()},
+                    }
+                );
+
+                var doc = builder.Build(models);
+
+                doc.collection.items.Should().HaveCount(3);
             }
         }
         private const string CollectionHref = "http://example.com/collection";

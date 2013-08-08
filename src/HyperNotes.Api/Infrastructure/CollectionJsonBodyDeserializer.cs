@@ -14,6 +14,11 @@ namespace HyperNotes.Api.Infrastructure {
         }
 
 
+        public bool CanDeserialize(string contentType, BindingContext context) {
+            return CanDeserialize(contentType);
+        }
+
+
         public object Deserialize(string contentType, Stream bodyStream, BindingContext context) {
             var jsonBodyDeserializer = new JsonBodyDeserializer();
             

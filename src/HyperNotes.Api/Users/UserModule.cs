@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using HyperNotes.Api.Errors;
+using HyperNotes.Api.Infrastructure;
 using HyperNotes.CollectionJson;
 using Nancy;
 using Nancy.ModelBinding;
@@ -12,6 +14,7 @@ namespace HyperNotes.Api.Users {
     // TODO: Authentication, authenticate updates, deletes
     public class UserModule : NancyModule {
         public UserModule() {
+            this.RequiresAuthentication();
 
             Get["/users"] = _ => {
                 using (var db = Db.OpenSession()) {
@@ -25,37 +28,38 @@ namespace HyperNotes.Api.Users {
             Get["/users/{name}"] = param => {
                 using (var db = Db.OpenSession()) {
                     var n = (string) param.name;
-                    var user = db.Query<UserModel>().FirstOrDefault(u => u.UserName.Equals(n));
+                    var user = db.FindUser(n);
                     if (user != null) {
                         return Negotiate
                             .WithModel(user)
                             .WithView("Users/Html/User");
                         }
                     
-                    return HttpStatusCode.NotFound;
+                    return Negotiate.WithError(HttpStatusCode.NotFound, "No such user");
                 }
             };
             
             Post["/users"] = _ => {
-                var newUser = this.Bind<NewUserModel>();
-                var user = Mapper.Map<NewUserModel, UserModel>(newUser);
+                var postedUser = this.Bind<NewUserModel>();
+                var user = Mapper.Map<NewUserModel, UserModel>(postedUser);
 
-                using (var db = Db.OpenSession())
-                {
+                using (var db = Db.OpenSession()) {
+                    var existingUser = db.FindUser(user.UserName);
+
+                    if (existingUser != null) {
+                        return Negotiate.WithError(HttpStatusCode.Conflict, title: "Username exists");
+                    }
+
+                    user.PwHash = UserValidationHelper.GetHash(postedUser.Password);
+
                     db.Store(user);
                     db.SaveChanges();
-                    var metadata = db.Advanced.GetMetadataFor(user);
-                    var modified = metadata.Value<DateTime>("Last-Modified");
-                    var etag = metadata.Value<string>("@etag");
 
                     return new Response()
                         .WithStatusCode(HttpStatusCode.Created)
                         .WithContentType(null)
-                        .WithHeaders(
-                            new { header = "Location", value = "/users/" + user.UserName },
-                            new { header = "Last-Modified", value = modified.ToString("r") },
-                            new { header = "ETag", value = etag }
-                        );
+                        .WithHeader( "Location", "/users/" + user.UserName )
+                        .WithHeaders( db.GetCacheHeaders(user) );
                 }
             };
 

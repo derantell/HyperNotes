@@ -3,26 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>User @Model.Name</title>
+    <title>User @Model.UserName</title>
     <link href="/users" rel="collection"/>
 </head>
 <body>
-    <form action="/users/@Model.Name" method="put" enctype="application/x-www-form-urlencoded">
+    <form action="/users/@Model.UserName" method="put" enctype="application/x-www-form-urlencoded">
         <label for="email">Email:</label>
         <input name="email" type="email" id="email" value="@Model.Email"/>
         <label for="password">Password:</label>
-        <input name="password" type="password" id="password" value="@Model.Password"/>
+        <input name="password" type="password" id="password" value=""/>
         <input type="submit" value="update"/>
     </form>
     
-    <form action="/users/@Model.Name" method="delete">
+    <form action="/users/@Model.UserName" method="delete">
         <input type="submit" value="delete"/>
     </form>
 
     <div class="vcard">
         <span class="fn nickname">@Model.UserName</span>   
         <a href="mailto:@Model.Email" class="email">@Model.Email</a>
-        <span>@Model.PwHash</span>
     </div>
 </body>
 </html>

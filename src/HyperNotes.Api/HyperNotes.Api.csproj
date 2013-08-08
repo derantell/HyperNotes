@@ -34,8 +34,12 @@
       <HintPath>..\..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Nancy">
-      <HintPath>..\..\packages\Nancy.0.17.1\lib\net40\Nancy.dll</HintPath>
+    <Reference Include="Nancy, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Nancy.0.18.0\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Authentication.Basic">
+      <HintPath>..\..\packages\Nancy.Authentication.Basic.0.18.0\lib\net40\Nancy.Authentication.Basic.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Owin">
       <HintPath>..\..\packages\Nancy.Owin.0.17.1\lib\net40\Nancy.Owin.dll</HintPath>
@@ -54,9 +58,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Errors\ErrorModel.cs" />
+    <Compile Include="Errors\Json\ErrorCollectionDefinition.cs" />
     <Compile Include="Infrastructure\CollectionJsonBodyDeserializer.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
     <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
+    <Compile Include="Infrastructure\UserValidator.cs" />
+    <Compile Include="NegotiatorExtensions.cs" />
     <Compile Include="Users\Json\UserCollectionDefinition.cs" />
     <Compile Include="Users\NewUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +77,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Errors\Html\Error.html" />
     <Content Include="Users\Html\User.html" />
     <Content Include="Users\Html\Users.html" />
   </ItemGroup>

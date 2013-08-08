@@ -41,6 +41,11 @@ namespace HyperNotes.CollectionJson {
                 version = _version,
             };
 
+            if (model.Any() && _errorGenerator(model.First()) != null ) {
+                collection.error = _errorGenerator(model.First());
+                return new CollectionJson {collection = collection};
+            }
+
             if (_links != null) {
                 collection.links = _links;
             }
@@ -91,6 +96,11 @@ namespace HyperNotes.CollectionJson {
             return this;
         }
 
+        public CollectionBuilder<TModel> Error( Func<TModel, Error> error ) {
+            _errorGenerator = error;
+            return this;
+        } 
+
         public CollectionBuilder(string href, string version) {
             _href = href;
             _version = version;
@@ -99,10 +109,12 @@ namespace HyperNotes.CollectionJson {
         private string _href;
         private string _version;
         private IEnumerable<Link> _links;
+        private Func<TModel, Error> _errorGenerator = (_=>null);
         private Func<TModel, string> _itemHrefGenerator = (_ => null);
         private Func<TModel, IEnumerable<Data>> _itemDataGenerator = (_ => null);
         private Func<TModel, IEnumerable<Link>> _itemLinkGenerator = (_ => null);
         private IEnumerable<Data> _templateData;
         private IEnumerable<Query> _queries;
+        private Error _error;
     }
 }
