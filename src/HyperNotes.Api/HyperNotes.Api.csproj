@@ -71,7 +71,7 @@
     <Compile Include="Infrastructure\RavenDb.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Users\UserModel.cs" />
-    <Compile Include="Users\UserModule.cs" />
+    <Compile Include="Users\OpenUserModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

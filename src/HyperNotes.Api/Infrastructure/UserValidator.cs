@@ -32,5 +32,9 @@ namespace HyperNotes.Api.Infrastructure {
                 return Convert.ToBase64String(hash);
             }
         }
+
+        public static bool IsLoggedInUser(string loggedInUser, string user) {
+            return loggedInUser == user;
+        }
     }
 }
