@@ -1,17 +1,10 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
-using HyperNotes.Api.Errors;
+﻿using AutoMapper;
 using HyperNotes.Api.Infrastructure;
-using HyperNotes.CollectionJson;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
-using Raven.Client;
 
 namespace HyperNotes.Api.Users {
-    // TODO: Validation, only auth user can update, delete
-    // TODO: Authentication, authenticate updates, deletes
     public class OpenUserModule : NancyModule {
         public OpenUserModule() : base("/users") {
 
@@ -40,8 +33,8 @@ namespace HyperNotes.Api.Users {
             };
             
             Post["/"] = _ => {
-                var postedUser = this.Bind<NewUserModel>();
-                var user = Mapper.Map<NewUserModel, UserModel>(postedUser);
+                var postedUser = this.Bind<UserDto>();
+                var user = Mapper.Map<UserDto, UserModel>(postedUser);
 
                 using (var db = RavenDb.Store.OpenSession()) {
                     var existingUser = db.FindUser(user.UserName);
@@ -64,14 +57,7 @@ namespace HyperNotes.Api.Users {
             };
 
         }
-
-        private UserModel BindAndMapUser() {
-            var requestUser = this.Bind<NewUserModel>();
-            var user = Mapper.Map<NewUserModel, UserModel>(requestUser);
-            return user;
-        }
-
-    }
+   }
     
     public class SecureUserModule : NancyModule {
         public SecureUserModule() : base("/users") {
@@ -79,8 +65,8 @@ namespace HyperNotes.Api.Users {
             
             Put["/{name}"] = param => {
                 var resourceName = (string)param.name;
-                var requestData = this.Bind<NewUserModel>();
-                var boundUser = Mapper.Map<NewUserModel, UserModel>(requestData);
+                var requestData = this.Bind<UserDto>();
+                var boundUser = Mapper.Map<UserDto, UserModel>(requestData);
 
                 using (var db = RavenDb.Store.OpenSession()) {
                     var user = db.FindUser(resourceName);

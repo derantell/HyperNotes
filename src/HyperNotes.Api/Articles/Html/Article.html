@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.Title</title>
+    <link href="/articles" rel="collection"/>
+</head>
+<body>
+    <article class="h-entry">
+        <h1 class="p-name">@Model.Title</h1>
+        @If.HasTags
+        <ul>
+            @Each.Tags
+            <li class="p-category">@Current</li>
+            @EndEach
+        </ul>
+        @EndIf
+        
+        <p class="e-content">
+            <pre>@Model.MarkdownText</pre>
+        </p>
+        
+        By:
+        <ul>
+            @Each.Authors
+            <li><a href="/users/@Current" class="p-author">@Current</a></li>
+            @EndEach
+        </ul>
+
+        <p>Published: <time class="dt-published" datetime='@Model.CreatedRfc3339'>@Model.Created</time></p>
+        <p>Modified: <time class="dt-updated" datetime='@Model.ModifiedRfc3339'>@Model.Modified</time></p>
+    </article>
+</body>
+</html>

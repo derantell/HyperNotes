@@ -21,9 +21,12 @@ namespace HyperNotes.Api.Infrastructure {
             };
         }
 
-        public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context)
-        {
-            dynamic definition = CollectionJsonDefinitionLocator.Find(model);
+        public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
+            if (model == null) {
+                return new TextResponse("");
+            }
+
+            var definition = CollectionJsonDefinitionLocator.Find(model);
 
             var collection = definition.CreateCollection(model);
 

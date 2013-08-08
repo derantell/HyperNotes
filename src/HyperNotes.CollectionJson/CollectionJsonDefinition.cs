@@ -15,7 +15,7 @@ namespace HyperNotes.CollectionJson {
 
         protected abstract CollectionBuilder<TModel> GetBuilder();
 
-        protected static Data Data(string name, string value = null, string prompt = null) {
+        protected static Data Data(string name, object value = null, string prompt = null) {
             return new Data {name = name, value = value, prompt = prompt};
         }
 

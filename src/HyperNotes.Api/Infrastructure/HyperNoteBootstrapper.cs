@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
+using HyperNotes.Api.Articles;
 using HyperNotes.Api.Users;
 using Nancy;
 using Nancy.Authentication.Basic;
@@ -20,7 +22,11 @@ namespace HyperNotes.Api.Infrastructure {
             
             RavenDb.Init("http://derantell-pc:8080");
             
-            Mapper.CreateMap<NewUserModel, UserModel>();
+            Mapper.CreateMap<UserDto, UserModel>();
+            Mapper.CreateMap<ArticleDto, ArticleModel>()
+                  .ForMember(
+                      model => model.Tags,
+                      opt => opt.MapFrom(dto => Regex.Split(dto.Tags, @"\s*;\s*")));
         }
     }
 }

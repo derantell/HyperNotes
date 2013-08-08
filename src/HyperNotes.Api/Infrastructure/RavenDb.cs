@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HyperNotes.Api.Articles;
 using HyperNotes.Api.Users;
 using Raven.Client;
 using Raven.Client.Document;
@@ -29,6 +30,10 @@ namespace HyperNotes.Api.Infrastructure {
                 new { header = "ETag", value = etag },
                 new { header = "Last-Modified", value = modified.ToString("r") }
             };
+        }
+
+        public static ArticleModel FindArticle(this IDocumentSession self, string slug) {
+            return self.Query<ArticleModel>().FirstOrDefault(u => u.Slug.Equals(slug));
         }
     }
 }
