@@ -1,0 +1,12 @@
+﻿{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/@Model.CollectionUrl']",
+    
+    "error" : {
+      "title" : "@Model.Title",
+      "code" : "@Model.Code",
+      "message" : "@Model.Message"
+    }
+  } 
+}

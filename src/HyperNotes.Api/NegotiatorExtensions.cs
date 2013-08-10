@@ -8,10 +8,16 @@ namespace HyperNotes.Api {
              HttpStatusCode statusCode = HttpStatusCode.InternalServerError, 
              string title = "Server error",
              string message = "") {
+             var url = self.NegotiationContext.ModulePath;
              return self
                  .WithStatusCode(statusCode)
-                 .WithModel(new ErrorModel {Code = ((int)statusCode).ToString(), Title = title, Message = message})
-                 .WithView("Errors/Html/Error");
+                 .WithModel(new ErrorModel {
+                     Code = ((int)statusCode).ToString(),
+                     Title = title,
+                     Message = message,
+                     CollectionUrl = url
+                 })
+                 .WithView("Errors/Representations/Error");
          }
     }
 }

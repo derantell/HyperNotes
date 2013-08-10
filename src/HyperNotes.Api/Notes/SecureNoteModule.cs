@@ -6,53 +6,53 @@ using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
 
-namespace HyperNotes.Api.Articles {
-    public class SecureArticleModule : NancyModule {
-        public SecureArticleModule() : base("/articles") {
+namespace HyperNotes.Api.Notes {
+    public class SecureNoteModule : NancyModule {
+        public SecureNoteModule() : base("/notes") {
             this.RequiresAuthentication();
 
             Post["/"] = param => {
-                var postedArticleData = this.Bind<ArticleDto>();
-                var mappedArticle = Mapper.Map<ArticleDto, ArticleModel>(postedArticleData);
+                var postedNoteData = this.Bind<NoteDto>();
+                var mappedNote = Mapper.Map<NoteDto, NoteModel>(postedNoteData);
                 var nowUTC = DateTime.UtcNow;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    mappedArticle.Created = nowUTC;
-                    mappedArticle.Modified = nowUTC;
-                    mappedArticle.Owner = Context.CurrentUser.UserName;
-                    mappedArticle.Authors = new[] {mappedArticle.Owner};
-                    mappedArticle.Slug = mappedArticle.Title.Slugify();
+                    mappedNote.Created = nowUTC;
+                    mappedNote.Modified = nowUTC;
+                    mappedNote.Owner = Context.CurrentUser.UserName;
+                    mappedNote.Authors = new[] {mappedNote.Owner};
+                    mappedNote.Slug = mappedNote.Title.Slugify();
 
-                    db.Store(mappedArticle);
+                    db.Store(mappedNote);
                     db.SaveChanges();
 
                     return Negotiate
                         .WithStatusCode(HttpStatusCode.Created)
                         .WithContentType(null)
-                        .WithHeader( "Location", "/articles/" + mappedArticle.Slug)
-                        .WithHeaders(db.GetCacheHeaders(mappedArticle));
+                        .WithHeader( "Location", "/notes/" + mappedNote.Slug)
+                        .WithHeaders(db.GetCacheHeaders(mappedNote));
                 }
             };
         }
     }
     
-    public class ReadArticleModule : NancyModule {
-        public ReadArticleModule() : base("/articles") {
+    public class ReadNoteModule : NancyModule {
+        public ReadNoteModule() : base("/notes") {
 
             Get["/{slug}"] = param => {
                 var slug = (string) param.slug;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var article = db.FindArticle(slug);
+                    var note = db.FindArticle(slug);
 
-                    if (article == null) {
-                        return Negotiate.WithError(HttpStatusCode.NotFound, "No such article");
+                    if (note == null) {
+                        return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");
                     }
 
                     return Negotiate
-                        .WithModel(article)
-                        .WithHeaders(db.GetCacheHeaders(article))
-                        .WithView("Articles/Html/Article");
+                        .WithModel(note)
+                        .WithHeaders(db.GetCacheHeaders(note))
+                        .WithView("Notes/Representations/Single");
                 }
             };
         }

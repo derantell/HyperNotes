@@ -10,10 +10,10 @@ namespace HyperNotes.Api.Users {
 
             Get["/"] = _ => {
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var users = db.Query<UserModel>();
+                    var users = new FunctionalList<UserModel>( db.Query<UserModel>() );
                     return Negotiate
                         .WithModel(users)
-                        .WithView("Users/Html/Users");
+                        .WithView("Users/Representations/List");
                 }
             };
 
@@ -25,7 +25,7 @@ namespace HyperNotes.Api.Users {
                         return Negotiate
                             .WithModel(user)
                             .WithHeaders(db.GetCacheHeaders(user))
-                            .WithView("Users/Html/User");
+                            .WithView("Users/Representations/Single");
                         }
                     
                     return Negotiate.WithError(HttpStatusCode.NotFound, "No such user");
@@ -90,7 +90,7 @@ namespace HyperNotes.Api.Users {
                     return Negotiate
                         .WithModel(user)
                         .WithHeaders( db.GetCacheHeaders(user) )
-                        .WithView("Users/Html/User");
+                        .WithView("Users/Representations/Single");
                 }
             };
 

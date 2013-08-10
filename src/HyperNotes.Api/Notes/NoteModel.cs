@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HyperNotes.Api.Articles {
-    public class ArticleModel {
+namespace HyperNotes.Api.Notes {
+    public class NoteModel {
         public string Id { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }

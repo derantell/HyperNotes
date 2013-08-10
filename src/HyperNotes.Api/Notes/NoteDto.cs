@@ -1,5 +1,5 @@
-﻿namespace HyperNotes.Api.Articles {
-    public class ArticleDto {
+﻿namespace HyperNotes.Api.Notes {
+    public class NoteDto {
         public string Title { get; set; }
         public string Tags { get; set; }
         public string MarkdownText { get; set; }

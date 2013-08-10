@@ -1,0 +1,39 @@
+﻿{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/users']",
+    
+    "links" : [
+      {"rel" : "alternate", "href" : "@Path['~/users.html']", "prompt": "HTML representation"}
+    ],
+    
+	@IfNot.IsEmpty
+    "items" : [
+      {
+        "href" : "@Path['~/users/@Model.First.UserName']",
+        "data" : [
+          {"name" : "username", "value" : "@Model.First.UserName", "prompt" : "User name"},
+          {"name" : "email", "value" : "@Model.First.Email", "prompt" : "Email"}
+        ]
+      }
+	  @Each.Rest
+      ,{
+        "href" : "@Path['~/users/@Current.UserName']",
+        "data" : [
+          {"name" : "username", "value" : "@Current.UserName", "prompt" : "User name"},
+          {"name" : "email", "value" : "@Current.Email", "prompt" : "Email"}
+        ]
+      }
+	  @EndEach
+    ],
+	@EndIf
+    
+    "template" : {
+      "data" : [
+        {"name" : "username", "value" : "", "prompt" : "User name"},
+        {"name" : "email", "value" : "", "prompt" : "Email"},
+        {"name" : "password", "value" : "", "prompt" : "Password"}
+      ]
+    }
+  } 
+}

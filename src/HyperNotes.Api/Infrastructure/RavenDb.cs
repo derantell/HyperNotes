@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using HyperNotes.Api.Articles;
+using HyperNotes.Api.Notes;
 using HyperNotes.Api.Users;
 using Raven.Client;
 using Raven.Client.Document;
@@ -32,8 +32,8 @@ namespace HyperNotes.Api.Infrastructure {
             };
         }
 
-        public static ArticleModel FindArticle(this IDocumentSession self, string slug) {
-            return self.Query<ArticleModel>().FirstOrDefault(u => u.Slug.Equals(slug));
+        public static NoteModel FindArticle(this IDocumentSession self, string slug) {
+            return self.Query<NoteModel>().FirstOrDefault(u => u.Slug.Equals(slug));
         }
     }
 }

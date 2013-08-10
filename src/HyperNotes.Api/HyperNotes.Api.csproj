@@ -58,9 +58,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Articles\ArticleDto.cs" />
-    <Compile Include="Articles\ArticleModel.cs" />
-    <Compile Include="Articles\SecureArticleModule.cs" />
+    <Compile Include="FunctionalList.cs" />
+    <Compile Include="Notes\NoteDto.cs" />
+    <Compile Include="Notes\NoteModel.cs" />
+    <Compile Include="Notes\SecureNoteModule.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Errors\ErrorModel.cs" />
     <Compile Include="Infrastructure\CollectionJsonBodyDeserializer.cs" />
@@ -77,14 +78,16 @@
     <Compile Include="Users\OpenUserModule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Errors\Representations\Error.json" />
     <None Include="packages.config" />
-    <None Include="Users\Html\User.json" />
+    <None Include="Users\Representations\List.json" />
+    <None Include="Users\Representations\Single.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Articles\Html\Article.html" />
-    <Content Include="Errors\Html\Error.html" />
-    <Content Include="Users\Html\User.html" />
-    <Content Include="Users\Html\Users.html" />
+    <Content Include="Notes\Representations\Single.html" />
+    <Content Include="Errors\Representations\Error.html" />
+    <Content Include="Users\Representations\Single.html" />
+    <Content Include="Users\Representations\List.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyperNotes.CollectionJson\HyperNotes.CollectionJson.csproj">
