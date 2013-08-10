@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Notes</title>
+    <link rel="alternate" href="/notes.json" type="application/vnd.collection+json" />
+    <link rel="collection" href="/notes" />
+</head>
+    <body>
+        <h1>Notes</h1>
+        <h2>Create new note</h2>
+        <form action="/notes" method="POST" enctype="application/x-www-form-urlencoded" title="Create new note">
+            <label for="title">Title:</label>
+            <input name="title" id="title" type="text"/>
+            <label for="tags">Tags:</label>
+            <input name="tags" id="tags" type="text"/>
+            <label for="markdowntext">Markdowntext:</label>
+            <textarea name="markdowntext" id="markdowntext"></textarea>
+            <label for="isprivate">Is private:</label>
+            <input name="isprivate" id="isprivate" type="checkbox"/>
+            <label for="iscollaborative">Is collaborative:</label>
+            <input name="iscollaborative" id="iscollaborative" type="checkbox"/>
+            <input type="submit" value="submit"/>
+        </form>
+    
+        <h2>Notes</h2>
+        @IfNot.IsEmpty
+        <ul title="notes">
+            @Each.All
+            <li>
+                <a href="/notes/@Current.Note.Slug">@Current.Note.Title</a>
+            </li>
+            @EndEach
+        </ul>
+        @EndIf
+
+    </body>
+</html>

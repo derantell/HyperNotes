@@ -79,11 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Errors\Representations\Error.json" />
+    <None Include="Notes\Representations\Single.json" />
     <None Include="packages.config" />
     <None Include="Users\Representations\List.json" />
     <None Include="Users\Representations\Single.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Notes\Representations\List.html" />
     <Content Include="Notes\Representations\Single.html" />
     <Content Include="Errors\Representations\Error.html" />
     <Content Include="Users\Representations\Single.html" />

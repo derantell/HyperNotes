@@ -3,31 +3,31 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@Model.Title</title>
+    <title>@Model.Note.Title</title>
     <link href="/notes" rel="collection"/>
 </head>
 <body>
     <article class="h-entry">
-        <h1 class="p-name">@Model.Title</h1>
-        @If.HasTags
+        <h1 class="p-name">@Model.Note.Title</h1>
+        @If.Note.HasTags
         <ul>
-            @Each.Tags
+            @Each.Note.Tags
             <li class="p-category">@Current</li>
             @EndEach
         </ul>
         @EndIf
         
-        <pre class="e-content">@Model.MarkdownText</pre>
+        <pre class="e-content">@Model.Note.MarkdownText</pre>
         
         <p>By:</p>
         <ul>
-            @Each.Authors
+            @Each.Note.Authors
             <li><a href="/users/@Current" class="p-author">@Current</a></li>
             @EndEach
         </ul>
 
-        <p>Published: <time class="dt-published" datetime='@Model.CreatedRfc3339'>@Model.Created</time></p>
-        <p>Modified: <time class="dt-updated" datetime='@Model.ModifiedRfc3339'>@Model.Modified</time></p>
+        <p>Published: <time class="dt-published" datetime='@Model.CreatedRfc3339'>@Model.Note.Created</time></p>
+        <p>Modified: <time class="dt-updated" datetime='@Model.ModifiedRfc3339'>@Model.Note.Modified</time></p>
     </article>
 </body>
 </html>
