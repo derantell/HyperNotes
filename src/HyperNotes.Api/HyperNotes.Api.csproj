@@ -60,19 +60,15 @@
   <ItemGroup>
     <Compile Include="Articles\ArticleDto.cs" />
     <Compile Include="Articles\ArticleModel.cs" />
-    <Compile Include="Articles\Json\ArticleCollectionJsonDefinition.cs" />
     <Compile Include="Articles\SecureArticleModule.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Errors\ErrorModel.cs" />
-    <Compile Include="Errors\Json\ErrorCollectionDefinition.cs" />
     <Compile Include="Infrastructure\CollectionJsonBodyDeserializer.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
-    <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
     <Compile Include="Infrastructure\HyperNotesViewEngine.cs" />
     <Compile Include="Infrastructure\HyperNotesViewProcessor.cs" />
     <Compile Include="Infrastructure\UserValidator.cs" />
     <Compile Include="NegotiatorExtensions.cs" />
-    <Compile Include="Users\Json\UserCollectionDefinition.cs" />
     <Compile Include="Users\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\RavenDb.cs" />
