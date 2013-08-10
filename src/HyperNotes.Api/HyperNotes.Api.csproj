@@ -68,6 +68,8 @@
     <Compile Include="Infrastructure\CollectionJsonBodyDeserializer.cs" />
     <Compile Include="Infrastructure\HyperNoteBootstrapper.cs" />
     <Compile Include="Infrastructure\CollectionJsonProcessor.cs" />
+    <Compile Include="Infrastructure\HyperNotesViewEngine.cs" />
+    <Compile Include="Infrastructure\HyperNotesViewProcessor.cs" />
     <Compile Include="Infrastructure\UserValidator.cs" />
     <Compile Include="NegotiatorExtensions.cs" />
     <Compile Include="Users\Json\UserCollectionDefinition.cs" />
@@ -80,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Users\Html\User.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Articles\Html\Article.html" />

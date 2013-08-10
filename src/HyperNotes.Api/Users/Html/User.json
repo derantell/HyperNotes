@@ -1,0 +1,28 @@
+﻿{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/users']",
+    
+    "links" : [
+      {"rel" : "alternate", "href" : "@Path['~/users/@Model.UserName;.html']", "prompt": "HTML representation"}
+    ],
+    
+    "items" : [
+      {
+        "href" : "@Path['~/users/@Model.UserName']",
+        "data" : [
+          {"name" : "username", "value" : "@Model.UserName", "prompt" : "User name"},
+          {"name" : "email", "value" : "@Model.Email", "prompt" : "Email"}
+        ]
+      }
+    ],
+    
+    "template" : {
+      "data" : [
+        {"name" : "username", "value" : "@Model.UserName", "prompt" : "User name"},
+        {"name" : "email", "value" : "@Model.Email", "prompt" : "Email"},
+        {"name" : "password", "value" : "", "prompt" : "Password"}
+      ]
+    }
+  } 
+}

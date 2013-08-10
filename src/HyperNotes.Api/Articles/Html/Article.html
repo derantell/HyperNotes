@@ -17,11 +17,9 @@
         </ul>
         @EndIf
         
-        <p class="e-content">
-            <pre>@Model.MarkdownText</pre>
-        </p>
+        <pre class="e-content">@Model.MarkdownText</pre>
         
-        By:
+        <p>By:</p>
         <ul>
             @Each.Authors
             <li><a href="/users/@Current" class="p-author">@Current</a></li>
