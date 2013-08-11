@@ -33,6 +33,8 @@ namespace HyperNotes.Api.Notes {
         public string IsCollaborativeJs { get { return Note.IsCollaborative.ToString().ToLower(); } }
         public string IsPrivateJs { get { return Note.IsPrivate.ToString().ToLower(); } }
 
+        public string TagList { get { return string.Join(" ", Note.Tags); } }
+
         private readonly NoteModel _note;
     }
 }

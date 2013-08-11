@@ -1,0 +1,46 @@
+﻿{ "collection": {
+	"version": "1.0",
+	"href": "@Path['~/notes']",
+		
+	"links" : [
+		{"rel" : "alternate", "href" : "@Path['~/notes.html']", "prompt": "HTML representation"}
+	],
+	
+	@IfNot.IsEmpty
+	"items" : [
+		{   "href" : "@Path['~/notes/@Model.First.Note.Slug']",
+			"data" : [
+				{"name" : "title", "value" : "@Model.First.Note.Title", "prompt" : "Title"},
+			    {"name" : "tags", "value" : "@Model.First.TagList", "prompt" : "Tags"},
+			    {"name" : "modified", "value" : @Model.First.ModifiedJs, "prompt" : "Modified"}
+			],
+			"links": [
+			  { "rel" : "owner", "href" : "@Path['~/users/@Model.First.Note.Owner']" }
+			]
+		} 
+		
+		@Each.Rest
+		,{  "href" : "@Path['~/notes/@Current.Note.Slug']",
+			"data" : [
+				{"name" : "title", "value" : "@Current.Note.Title", "prompt" : "Title"},
+			    {"name" : "tags", "value" : "@Current.TagList", "prompt" : "Tags"},
+			    {"name" : "modified", "value" : @Current.ModifiedJs, "prompt" : "Modified"}
+			],
+			"links": [
+			  { "rel" : "owner", "href" : "@Path['~/users/@Current.Note.Owner']" }
+			]
+		} 
+		@EndEach
+	],
+	@EndIf
+
+	"template" : {
+		"data" : [
+			{"name" : "title", "value" : "", "prompt" : "Title"},
+			{"name" : "markdowntext", "value" : "", "prompt" : "Markdown text"},
+			{"name" : "tags", "value" : "", "prompt" : "Tags"},
+			{"name" : "isprivate", "value" : "", "prompt" : "Is private"},
+			{"name" : "iscollaborative", "value" : "", "prompt" : "Is collaborative"}
+		]
+	}
+}}
