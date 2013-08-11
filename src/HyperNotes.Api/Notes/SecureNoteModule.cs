@@ -43,7 +43,7 @@ namespace HyperNotes.Api.Notes {
                 var slug = (string) param.slug;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var note = db.FindArticle(slug);
+                    var note = db.FindNote(slug);
 
                     if (note == null) {
                         return new NoBodyResponse();
@@ -59,7 +59,52 @@ namespace HyperNotes.Api.Notes {
                     return new NoBodyResponse();
                 }
             };
-            
+
+            Put["/{slug}"] = param => {
+                var slug = (string) param.slug;
+
+                using (var db = RavenDb.Store.OpenSession()) {
+                    var note = db.FindNote(slug);
+                    
+                    if (note == null) {
+                        return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");
+                    }
+
+                    var isOwner = UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, note.Owner);
+                    if (!isOwner && note.IsPrivate) {
+                        return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");
+                    }
+
+                    if (!isOwner && !note.IsCollaborative) {
+                        return Negotiate.WithError(HttpStatusCode.Forbidden, "Note is not collaborative");
+                    }
+
+                    var postedNoteData = this.Bind<NoteDto>();
+                    var mappedNote = Mapper.Map<NoteDto, NoteModel>(postedNoteData);
+
+                    note.Title = mappedNote.Title;
+                    note.Tags = mappedNote.Tags;
+                    note.MarkdownText = mappedNote.MarkdownText;
+                    note.Modified = DateTime.UtcNow;
+
+                    if (isOwner) {
+                        note.IsPrivate = mappedNote.IsPrivate;
+                        note.IsCollaborative = mappedNote.IsCollaborative;
+                    }
+
+                    if (!note.Authors.Contains(Context.CurrentUser.UserName)) {
+                        note.Authors = note.Authors.Concat(new[] {Context.CurrentUser.UserName});
+                    }
+
+                    db.Store(note);
+                    db.SaveChanges();
+
+                    return Negotiate
+                        .WithModel(new NoteViewModel(note))
+                        .WithHeaders(db.GetCacheHeaders(note))
+                        .WithView("Notes/Representations/Single");
+                }
+            };
         }
     }
     
@@ -80,7 +125,7 @@ namespace HyperNotes.Api.Notes {
                 var slug = (string) param.slug;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var note = db.FindArticle(slug);
+                    var note = db.FindNote(slug);
 
                     if (note == null) {
                         return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");

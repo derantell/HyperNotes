@@ -32,7 +32,7 @@ namespace HyperNotes.Api.Infrastructure {
             };
         }
 
-        public static NoteModel FindArticle(this IDocumentSession self, string slug) {
+        public static NoteModel FindNote(this IDocumentSession self, string slug) {
             return self.Query<NoteModel>().FirstOrDefault(u => u.Slug.Equals(slug));
         }
     }
