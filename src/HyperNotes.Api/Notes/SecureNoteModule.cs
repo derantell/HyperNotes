@@ -38,6 +38,28 @@ namespace HyperNotes.Api.Notes {
                     };
                 }
             };
+
+            Delete["/{slug}"] = param => {
+                var slug = (string) param.slug;
+
+                using (var db = RavenDb.Store.OpenSession()) {
+                    var note = db.FindArticle(slug);
+
+                    if (note == null) {
+                        return new NoBodyResponse();
+                    }
+
+                    if (!UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, note.Owner)) {
+                        return Negotiate.WithError(HttpStatusCode.Forbidden, "Cannot delete other user's note");
+                    }
+
+                    db.Delete(note);
+                    db.SaveChanges();
+
+                    return new NoBodyResponse();
+                }
+            };
+            
         }
     }
     

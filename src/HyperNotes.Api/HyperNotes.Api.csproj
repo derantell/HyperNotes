@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionalList.cs" />
+    <Compile Include="Infrastructure\NoBodyResponse.cs" />
     <Compile Include="Notes\NoteDto.cs" />
     <Compile Include="Notes\NoteModel.cs" />
     <Compile Include="Notes\SecureNoteModule.cs" />
