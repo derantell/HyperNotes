@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HyperNotes.Api.Infrastructure;
+using HyperNotes.Api.Persistance;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Security;
@@ -10,7 +11,7 @@ namespace HyperNotes.Api.Users {
 
             Get["/"] = _ => {
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var users = new FunctionalList<UserModel>( db.Query<UserModel>() );
+                    var users = new FunctionalList<User>( db.Query<User>() );
                     return Negotiate
                         .WithModel(users)
                         .WithView("Users/Representations/List");
@@ -34,7 +35,7 @@ namespace HyperNotes.Api.Users {
             
             Post["/"] = _ => {
                 var postedUser = this.Bind<UserDto>();
-                var user = Mapper.Map<UserDto, UserModel>(postedUser);
+                var user = Mapper.Map<UserDto, User>(postedUser);
 
                 using (var db = RavenDb.Store.OpenSession()) {
                     var existingUser = db.FindUser(user.UserName);
@@ -66,7 +67,7 @@ namespace HyperNotes.Api.Users {
             Put["/{name}"] = param => {
                 var resourceName = (string)param.name;
                 var requestData = this.Bind<UserDto>();
-                var boundUser = Mapper.Map<UserDto, UserModel>(requestData);
+                var boundUser = Mapper.Map<UserDto, User>(requestData);
 
                 using (var db = RavenDb.Store.OpenSession()) {
                     var user = db.FindUser(resourceName);

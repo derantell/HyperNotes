@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using HyperNotes.Api.Persistance;
 using Nancy.Authentication.Basic;
 using Nancy.Security;
 

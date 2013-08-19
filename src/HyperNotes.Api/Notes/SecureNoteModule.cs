@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using AutoMapper;
 using HyperNotes.Api.Infrastructure;
+using HyperNotes.Api.Persistance;
 using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
@@ -16,7 +17,7 @@ namespace HyperNotes.Api.Notes {
 
             Post["/"] = param => {
                 var postedNoteData = this.Bind<NoteDto>();
-                var mappedNote = Mapper.Map<NoteDto, NoteModel>(postedNoteData);
+                var mappedNote = Mapper.Map<NoteDto, Note>(postedNoteData);
                 var nowUTC = DateTime.UtcNow;
 
                 using (var db = RavenDb.Store.OpenSession()) {
@@ -80,7 +81,7 @@ namespace HyperNotes.Api.Notes {
                     }
 
                     var postedNoteData = this.Bind<NoteDto>();
-                    var mappedNote = Mapper.Map<NoteDto, NoteModel>(postedNoteData);
+                    var mappedNote = Mapper.Map<NoteDto, Note>(postedNoteData);
 
                     note.Title = mappedNote.Title;
                     note.Tags = mappedNote.Tags;
@@ -113,7 +114,7 @@ namespace HyperNotes.Api.Notes {
 
             Get["/"] = param => {
                 using (var db = RavenDb.Store.OpenSession()) {
-                    var notes = db.Query<NoteModel>().ToArray();
+                    var notes = db.Query<Note>().ToArray();
 
                     return Negotiate
                         .WithModel( new FunctionalList<NoteViewModel>( notes.Select( m => new NoteViewModel(m)) ))
@@ -141,6 +142,10 @@ namespace HyperNotes.Api.Notes {
     }
 
     public static class StringExtensions {
+
+        public static string[] SplitList(this string self, string separators = " ,;") {
+            return Regex.Split(self, "[" + separators + "]+");
+        }
 
         public static string Slugify(this string phrase) {
             var slug = RemoveDiacritics(phrase).ToLower();

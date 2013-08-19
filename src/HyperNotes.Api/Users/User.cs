@@ -2,7 +2,7 @@
 using Nancy.Security;
 
 namespace HyperNotes.Api.Users {
-    public class UserModel : IUserIdentity {
+    public class User : IUserIdentity {
         public string Id { get; set; }
         public string Email { get; set; }
         public string PwHash { get; set; }

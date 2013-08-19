@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 
 namespace HyperNotes.Api.Notes {
-    public class NoteModel {
+    public class Note {
         public string Id { get; set; }
         public string Title { get; set; }
         public string Slug { get; set; }
@@ -18,11 +18,11 @@ namespace HyperNotes.Api.Notes {
     }
 
     public class NoteViewModel {
-        public NoteViewModel(NoteModel note) {
+        public NoteViewModel(Note note) {
             _note = note;
         }
 
-        public NoteModel Note { get { return _note; }}
+        public Note Note { get { return _note; }}
 
         public string CreatedRfc3339 { get { return Note.Created.ToString("O"); } }
         public string ModifiedRfc3339 { get { return Note.Modified.ToString("O"); } }
@@ -35,6 +35,6 @@ namespace HyperNotes.Api.Notes {
 
         public string TagList { get { return string.Join(" ", Note.Tags); } }
 
-        private readonly NoteModel _note;
+        private readonly Note _note;
     }
 }
