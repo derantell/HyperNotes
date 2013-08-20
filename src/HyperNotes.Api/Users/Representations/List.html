@@ -16,7 +16,7 @@
         <input type="submit" value="create"/>
     </form>
     
-    @If.HasAll
+    @IfNot.IsEmpty
     <ul title="users">
         @Each.All
         <li>

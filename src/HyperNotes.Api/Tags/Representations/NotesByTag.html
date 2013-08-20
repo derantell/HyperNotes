@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Notes tagged with @Model.Tags</title>
+    <link href="@Path['/tags']" rel="collection" />
+    <link href="@Path['/tags/@Model.Tags;.json']" rel="alternate"/>
+</head>
+    <body>
+        <h1>Notes tagged with @Model.Tags</h1>
+        <ul>
+            @Each.Notes
+            <li><a href="@Path['/notes/@Current.Slug']">@Current.Title</a></li>
+            @EndEach
+        </ul>
+    </body>
+</html>

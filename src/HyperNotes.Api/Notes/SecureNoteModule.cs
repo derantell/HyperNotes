@@ -26,6 +26,7 @@ namespace HyperNotes.Api.Notes {
                     mappedNote.Owner = Context.CurrentUser.UserName;
                     mappedNote.Authors = new[] {mappedNote.Owner};
                     mappedNote.Slug = mappedNote.Title.Slugify();
+                    mappedNote.Tags = mappedNote.Tags.Select(t => t.ToLower());
 
                     db.Store(mappedNote);
                     db.SaveChanges();

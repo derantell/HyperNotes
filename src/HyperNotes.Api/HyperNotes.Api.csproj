@@ -73,7 +73,7 @@
     <Compile Include="NegotiatorExtensions.cs" />
     <Compile Include="Persistance\Notes_NotesByTag.cs" />
     <Compile Include="Persistance\RavenDb.cs" />
-    <Compile Include="Search\SearchModule.cs" />
+    <Compile Include="Tags\TagModule.cs" />
     <Compile Include="Users\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -92,7 +92,8 @@
     <Content Include="Notes\Representations\List.html" />
     <Content Include="Notes\Representations\Single.html" />
     <Content Include="Errors\Representations\Error.html" />
-    <Content Include="Search\Representations\List.html" />
+    <Content Include="Tags\Representations\AllTags.html" />
+    <Content Include="Tags\Representations\NotesByTag.html" />
     <Content Include="Users\Representations\Single.html" />
     <Content Include="Users\Representations\List.html" />
   </ItemGroup>

@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Searchresult</title>
+    <title>Tags</title>
 </head>
 <body>
     <ul>
     @Each
-        <li>@Current.Title</li>
+        <li><a href="@Path['~/tags/@Current.TagName']">@Current.TagName</a></li>
     @EndEach
     </ul>
 </body>
