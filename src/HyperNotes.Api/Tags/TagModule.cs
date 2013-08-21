@@ -39,20 +39,5 @@ namespace HyperNotes.Api.Tags {
                 }
             };
         }
-
-        
-    }
-
-    public class SearchParameters {
-        public string Query { get; set; }
-        public string Tags { get; set; }
-        public string Users { get; set; }
-
-        public string[] TagList { get { return Tags.SplitList(); } }
-        public string[] UserList { get { return Users.SplitList(); } }
-
-        public SearchParameters() {
-            Query = Tags = Users = "";
-        }
     }
 }

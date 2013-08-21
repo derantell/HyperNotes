@@ -4,28 +4,29 @@
     "href" : "@Path['~/notes']",
     
     "links" : [
-      {"rel" : "alternate", "href" : "@Path['~/notes/@Model.Note.Slug;.html']", "prompt": "HTML representation"}
+      {"rel" : "alternate", "href" : "@Path['~/notes/@Model.Note.Slug;.html']", "prompt": "HTML representation"},
+      {"rel" : "profile", "href" : "http://microformats.org/wiki/h-entry", "prompt": "h-entry microformat"}
     ],
     
     "items" : [
       {
         "href" : "@Path['~/notes/@Model.Note.Slug']",
         "data" : [
-          {"name" : "title", "value" : "@Model.Note.Title", "prompt" : "Title"},
-          {"name" : "markdowntext", "value" : "@Model.Note.MarkdownText", "prompt" : "Markdown text"},
+          {"name" : "p-name", "value" : "@Model.Note.Title", "prompt" : "Title"},
+          {"name" : "e-content", "value" : "@Model.Note.MarkdownText", "prompt" : "Markdown text"},
 		  @Each.Note.Tags
-          {"name" : "tag", "value" : "@Current", "prompt" : "Tag"},
+          {"name" : "p-category", "value" : "@Current", "prompt" : "Tag"},
 		  @EndEach
-          {"name" : "created", "value" : @Model.CreatedJs, "prompt" : "Created"},
-          {"name" : "modified", "value" : @Model.ModifiedJs, "prompt" : "Modified"},
+          {"name" : "dt-published", "value" : @Model.CreatedJs, "prompt" : "Created"},
+          {"name" : "dt-updated", "value" : @Model.ModifiedJs, "prompt" : "Modified"},
           {"name" : "isprivate", "value" : @Model.IsPrivateJs, "prompt" : "Is private"},
           {"name" : "iscollaborative", "value" : @Model.IsCollaborativeJs, "prompt" : "Is collaborative"}
         ],
 		"links" : [
 		  @Each.Note.Authors
-		  { "rel" : "author", "href" : "@Path['~/users/@Current']" },
+		  { "rel" : "author", "href" : "@Path['~/users/@Current']", "name": "p-author" },
 		  @EndEach
-		  { "rel" : "owner", "href" : "@Path['~/users/@Model.Note.Owner']" }
+		  { "rel" : "owner", "href" : "@Path['~/users/@Model.Note.Owner']", "name": "p-author"}
 		]
       }
     ],
