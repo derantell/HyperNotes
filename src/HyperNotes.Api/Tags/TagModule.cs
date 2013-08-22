@@ -16,7 +16,7 @@ namespace HyperNotes.Api.Tags {
                     var tags = db.Query<Tags_TagsByName.Tag, Tags_TagsByName>();
 
                     return Negotiate
-                        .WithModel(tags)
+                        .WithModel(new FunctionalList<Tags_TagsByName.Tag>(tags))
                         .WithStatusCode(HttpStatusCode.OK)
                         .WithView("Tags/Representations/AllTags");
                 }
@@ -31,9 +31,10 @@ namespace HyperNotes.Api.Tags {
                         .UsingDefaultOperator(QueryOperator.And)
                         .UsingDefaultField("Tags")
                         .Where(terms);
-                    
+
+                    var notes = new FunctionalList<Note>(matches);
                     return Negotiate
-                        .WithModel(new {Tags = param.tags, Notes = matches})
+                        .WithModel(new {Tags = param.tags, Notes = notes})
                         .WithStatusCode(HttpStatusCode.OK)
                         .WithView("Tags/Representations/NotesByTag");
                 }

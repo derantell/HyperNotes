@@ -1,0 +1,25 @@
+{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/tags/@Model.Tags']",
+
+    "items": [
+    @IfNot.Notes.IsEmpty
+    	{ 
+    		"href" : "@Path['~/notes/@Model.Notes.First.Slug']",
+    		"data" : [
+    			{"name" : "title", "value": "@Model.Notes.First.Title", "prompt" : "Title"}
+    		]
+    	} 
+    	@Each.Notes.Rest
+    	, {
+    		"href" : "@Path['~/tags/@Current.Slug']",
+    		"data" : [
+                {"name" : "title", "value": "@Current.Title", "prompt" : "Title"}
+    		]
+    	}
+    	@EndEach
+    @EndIf
+    ] 
+  } 
+}

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HyperNotes.Api {
-    public class FunctionalList<TModel> {
+    public class FunctionalList<TModel> : IEnumerable<TModel> {
         public FunctionalList(IEnumerable<TModel> sequence) {
             _sequence = sequence;
         }
@@ -24,5 +25,14 @@ namespace HyperNotes.Api {
         } 
 
         private readonly IEnumerable<TModel> _sequence;
+
+        public IEnumerator<TModel> GetEnumerator() {
+            return _sequence.GetEnumerator();
+        }
+
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
+        }
     }
 }

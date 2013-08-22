@@ -1,0 +1,25 @@
+{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/tags']",
+
+    "items": [
+    @IfNot.IsEmpty
+    	{ 
+    		"href" : "@Path['~/tags/@Model.First.TagName']",
+    		"data" : [
+    			{"name" : "Tag", "value": "@Model.First.TagName", "prompt" : "Tag name"}
+    		]
+    	} 
+    	@Each.Rest
+    	, {
+    		"href" : "@Path['~/tags/@Current.TagName']",
+    		"data" : [
+    			{"name" : "Tag", "value": "@Current.TagName", "prompt" : "Tag name"}
+    		]
+    	}
+    	@EndEach
+    @EndIf
+    ] 
+  } 
+}
