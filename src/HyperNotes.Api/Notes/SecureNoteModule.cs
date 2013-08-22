@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AutoMapper;
 using HyperNotes.Api.Infrastructure;
 using HyperNotes.Api.Persistance;
@@ -9,6 +8,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Nancy.Responses;
 using Nancy.Security;
+
 
 namespace HyperNotes.Api.Notes {
     public class SecureNoteModule : NancyModule {
@@ -21,12 +21,12 @@ namespace HyperNotes.Api.Notes {
                 var nowUTC = DateTime.UtcNow;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    mappedNote.Created = nowUTC;
+                    mappedNote.Created  = nowUTC;
                     mappedNote.Modified = nowUTC;
-                    mappedNote.Owner = Context.CurrentUser.UserName;
-                    mappedNote.Authors = new[] {mappedNote.Owner};
-                    mappedNote.Slug = mappedNote.Title.Slugify();
-                    mappedNote.Tags = mappedNote.Tags.Select(t => t.ToLower());
+                    mappedNote.Owner    = Context.CurrentUser.UserName;
+                    mappedNote.Authors  = new[] {mappedNote.Owner};
+                    mappedNote.Slug     = db.GetUniqueSlug( mappedNote.Title );
+                    mappedNote.Tags     = mappedNote.Tags.Select(t => t.ToLower());
 
                     db.Store(mappedNote);
                     db.SaveChanges();
@@ -139,29 +139,6 @@ namespace HyperNotes.Api.Notes {
                         .WithView("Notes/Representations/Single");
                 }
             };
-        }
-    }
-
-    public static class StringExtensions {
-
-        public static string[] SplitList(this string self, string separators = " ,;") {
-            return Regex.Split(self, "[" + separators + "]+");
-        }
-
-        public static string Slugify(this string phrase) {
-            var slug = RemoveDiacritics(phrase).ToLower();
-
-            slug = Regex.Replace(slug, @"[^a-z0-9\s-]", ""); // invalid chars           
-            slug = Regex.Replace(slug, @"\s+", " ").Trim(); // convert multiple spaces into one space   
-            slug = slug.Substring(0, slug.Length <= 45 ? slug.Length : 45).Trim(); // cut and trim it   
-            slug = Regex.Replace(slug, @"\s", "-"); // hyphens   
-
-            return slug; 
-        }
-
-        private static string RemoveDiacritics(string txt) {
-            var bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
-            return System.Text.Encoding.ASCII.GetString(bytes);
         }
     }
 }

@@ -71,9 +71,11 @@
     <Compile Include="Infrastructure\HyperNotesViewProcessor.cs" />
     <Compile Include="Infrastructure\UserValidator.cs" />
     <Compile Include="NegotiatorExtensions.cs" />
+    <Compile Include="Persistance\DocumentSessionExtensions.cs" />
     <Compile Include="Persistance\Notes_NotesByTag.cs" />
     <Compile Include="Persistance\RavenDb.cs" />
     <Compile Include="Search\SearchModule.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="Tags\TagModule.cs" />
     <Compile Include="Users\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
