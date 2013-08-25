@@ -28,7 +28,7 @@ namespace HyperNotes.Api.Search {
                      }
 
                      return Negotiate
-                         .WithModel(matches)
+                         .WithModel( new { Matches = new FunctionalList<Note>(matches), SearchParams = query} )
                          .WithView("Search/Representations/Result")
                          .WithStatusCode(HttpStatusCode.OK);
                  }

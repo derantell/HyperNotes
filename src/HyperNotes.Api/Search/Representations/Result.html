@@ -6,11 +6,21 @@
     <title>Search result</title>
 </head>
 <body>
-    <h1>Search result</h1>
+    <h1>Search</h1>
+    <form action="/search" method="GET" title="Search form">
+        <label>Query: <input id="query" name="q" type="search"/></label>
+        <label>Tags:  <input id="tags"  name="t" type="text"  /></label>
+        <label>Users: <input id="users" name="u" type="text"  /></label>
+        <input type="submit"/>
+    </form>
+    
+    @IfNot.Matches.IsEmpty
+    <h2>Search results for @Model.SearchParams.Q <em>tags: @Model.SearchParams.Tags, users: @Model.SearchParams.Users</em></h2>
     <ol>
-        @Each
+        @Each.Matches.All
         <li><a href="@Path['~/notes/@Current.Slug']">@Current.Title</a></li>
         @EndEach  
     </ol>
+    @EndIf
 </body>
 </html>
