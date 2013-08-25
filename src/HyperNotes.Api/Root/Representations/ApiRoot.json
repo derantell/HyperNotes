@@ -1,0 +1,22 @@
+﻿{ "collection" :
+  {
+    "version" : "1.0",
+    "href" : "@Path['~/']",
+    
+    "links" : [
+      {"rel" : "alternate", "href" : "@Path['~/.html']", "prompt": "HTML representation"},
+      {"rel" : "users", "href" : "@Path['~/users']", "prompt": "User collection"},
+      {"rel" : "notes", "href" : "@Path['~/notes']", "prompt": "Notes collection"},
+      {"rel" : "tags", "href" : "@Path['~/tags']", "prompt": "Tags collection"}
+    ],
+    
+    "queries": [
+      {"rel": "search", "href": "@Path['~/search']", "prompt": "Search",
+       "data": [
+          {"name": "q", "value": "", "prompt": "Query"},
+          {"name": "t", "value": "", "prompt": "Tag filter"},
+          {"name": "u", "value": "", "prompt": "User filter"}
+       ]}
+    ]
+  } 
+}
