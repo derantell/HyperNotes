@@ -30,12 +30,12 @@ namespace HyperNotes.Api.Notes {
 
                     db.Store(mappedNote);
                     db.SaveChanges();
-
+                    
                     return new Response {
                         StatusCode = HttpStatusCode.Created,
                         ContentType = null,
                         Headers = new Dictionary<string, string> {
-                            {"Location", "/notes/" + mappedNote.Slug}
+                            {"Location", Context.GetAbsoluteUrl( "notes", mappedNote.Slug) }
                         }
                     };
                 }

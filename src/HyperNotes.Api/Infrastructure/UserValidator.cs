@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using HyperNotes.Api.Persistance;
+using HyperNotes.Api.Users;
 using Nancy.Authentication.Basic;
 using Nancy.Security;
 
@@ -37,5 +39,31 @@ namespace HyperNotes.Api.Infrastructure {
         public static bool IsLoggedInUser(string loggedInUser, string user) {
             return loggedInUser == user;
         }
+
+        public static bool IsValidUsername(string username) {
+            return Regex.IsMatch(username ?? "", @"^[a-z0-9_-]{3,}$", RegexOptions.IgnoreCase);
+        }
+
+        public static bool IsValidEmailAddress(string emailAddress) {
+            return Regex.IsMatch(emailAddress ?? "",
+                                 @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$",
+                                 RegexOptions.IgnoreCase);
+        }
+
+        public static bool IsValidPassword(string password) {
+            return password != null && password.Length >= 6;
+        }
+
+        public static bool IsValid(this UserDto self) {
+            return IsValidUsername(self.UserName)
+                   && IsValidEmailAddress(self.Email)
+                   && IsValidPassword(self.Password);
+        }
+        
+        public const string UserValidDataMessage = 
+            "Username must be longer than 3 characters and the valid characters are " +
+            "A-Z (case insensitive), 0-9, _ and -. Email address must be valid. " +
+            "Password must be 6 characters or more.";
+                    
     }
 }

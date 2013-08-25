@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="FunctionalList.cs" />
     <Compile Include="Infrastructure\NoBodyResponse.cs" />
+    <Compile Include="NancyContextExtensions.cs" />
     <Compile Include="Notes\NoteDto.cs" />
     <Compile Include="Notes\Note.cs" />
     <Compile Include="Notes\SecureNoteModule.cs" />

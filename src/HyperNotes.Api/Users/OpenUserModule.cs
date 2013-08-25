@@ -35,6 +35,12 @@ namespace HyperNotes.Api.Users {
             
             Post["/"] = _ => {
                 var postedUser = this.Bind<UserDto>();
+
+                if (!postedUser.IsValid()) {
+                    return Negotiate.WithError(HttpStatusCode.BadRequest,
+                       "Invalid user data", UserValidationHelper.UserValidDataMessage);
+                }
+
                 var user = Mapper.Map<UserDto, User>(postedUser);
 
                 using (var db = RavenDb.Store.OpenSession()) {
@@ -52,8 +58,7 @@ namespace HyperNotes.Api.Users {
                     return new Response()
                         .WithStatusCode(HttpStatusCode.Created)
                         .WithContentType(null)
-                        .WithHeader( "Location", "/users/" + user.UserName )
-                        .WithHeaders( db.GetCacheHeaders(user) );
+                        .WithHeader( "Location", Context.GetAbsoluteUrl( "users", user.UserName ));
                 }
             };
 
@@ -67,6 +72,12 @@ namespace HyperNotes.Api.Users {
             Put["/{name}"] = param => {
                 var resourceName = (string)param.name;
                 var requestData = this.Bind<UserDto>();
+
+                if (!requestData.IsValid()) {
+                    return Negotiate.WithError(HttpStatusCode.BadRequest,
+                        "Invalid user data", UserValidationHelper.UserValidDataMessage);
+                }
+
                 var boundUser = Mapper.Map<UserDto, User>(requestData);
 
                 using (var db = RavenDb.Store.OpenSession()) {
