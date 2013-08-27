@@ -10,7 +10,7 @@ namespace HyperNotes.Api.Infrastructure {
             : base(viewFactory, "application/vnd.collection+json", "json") {}
 
         public override ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
-            var isExactResult = requestedMediaRange.Matches(contentType)
+            var isExactResult = requestedMediaRange.Matches(ContentType)
                                 || requestedMediaRange.Matches("application/json")
                                 || requestedMediaRange.Matches("text/json");
 
@@ -26,8 +26,8 @@ namespace HyperNotes.Api.Infrastructure {
             : base(viewFactory, "text/html", "html") {}
 
         public override ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
-            var isExactResult = requestedMediaRange.Matches(contentType)
-                                || requestedMediaRange.Matches("application/html+xml");
+            var isExactResult = requestedMediaRange.Matches(ContentType)
+                                || requestedMediaRange.Matches("application/xhtml+xml");
             
             return new ProcessorMatch {
                 ModelResult = MatchResult.DontCare,
@@ -36,11 +36,26 @@ namespace HyperNotes.Api.Infrastructure {
         }
     }
 
+    public class MarkdownProcessor : HyperNotesViewProcessor {
+        public MarkdownProcessor(IViewFactory viewFactory) 
+            : base(viewFactory, "text/x-markdown", "md") {}
+
+        public override ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
+            var isExactResult = requestedMediaRange.Matches(ContentType) 
+                || requestedMediaRange.Matches("text/markdown")
+                || requestedMediaRange.Matches("text/plain");
+
+            return new ProcessorMatch {
+                ModelResult = MatchResult.DontCare,
+                RequestedContentTypeResult = isExactResult ? MatchResult.ExactMatch : MatchResult.NoMatch
+            };
+        }
+    }
     public abstract class HyperNotesViewProcessor : IResponseProcessor {
         
-        protected readonly IViewFactory viewFactory;
-        protected readonly string viewExtension;
-        protected readonly string contentType;
+        protected readonly IViewFactory ViewFactory;
+        protected readonly string ViewExtension;
+        protected readonly string ContentType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewProcessor"/> class,
@@ -49,9 +64,9 @@ namespace HyperNotes.Api.Infrastructure {
         /// <param name="viewFactory">The view factory that should be used to render views.</param>
         protected HyperNotesViewProcessor(IViewFactory viewFactory, string contentType, string viewExtension)
         {
-            this.viewFactory = viewFactory;
-            this.viewExtension = viewExtension;
-            this.contentType = contentType;
+            this.ViewFactory = viewFactory;
+            this.ViewExtension = viewExtension;
+            this.ContentType = contentType;
         }
 
 
@@ -60,7 +75,7 @@ namespace HyperNotes.Api.Infrastructure {
         /// to a media range that can be sent to the client in a vary header.
         /// </summary>
         public IEnumerable<Tuple<string, MediaRange>> ExtensionMappings {
-            get { yield return Tuple.Create(viewExtension, MediaRange.FromString(contentType)); }
+            get { yield return Tuple.Create(ViewExtension, MediaRange.FromString(ContentType)); }
         }
 
 
@@ -81,9 +96,9 @@ namespace HyperNotes.Api.Infrastructure {
         /// <param name="context">The nancy context.</param>
         /// <returns>A <see cref="Response"/> instance.</returns>
         public Response Process(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
-            var viewName = context.NegotiationContext.ViewName + "." + viewExtension;
-            var response = viewFactory.RenderView( viewName, model, GetViewLocationContext(context));
-            response.ContentType = contentType;
+            var viewName = context.NegotiationContext.ViewName + "." + ViewExtension;
+            var response = ViewFactory.RenderView( viewName, model, GetViewLocationContext(context));
+            response.ContentType = ContentType;
 
             return response;
         }

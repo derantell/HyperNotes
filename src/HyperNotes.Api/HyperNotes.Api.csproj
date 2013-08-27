@@ -89,6 +89,7 @@
     <None Include="Errors\Representations\Error.json" />
     <None Include="Notes\Representations\list.json" />
     <None Include="Notes\Representations\Single.json" />
+    <None Include="Notes\Representations\Single.md" />
     <None Include="packages.config" />
     <None Include="Root\Representations\ApiRoot.json" />
     <None Include="Users\Representations\List.json" />

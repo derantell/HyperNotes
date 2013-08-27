@@ -4,23 +4,28 @@
 <head>
     <meta charset="utf-8" />
     <title>Hypernotes</title>
-    <link href="/.json" rel="alternate" type="application/vnd.collection+json"/>
 </head>
 <body>
     <h1>Hypernotes</h1>
 
     <h2>Resources</h2>
     <ul>
-        <li><a rel="users" href="/users">Users</a></li>
-        <li><a rel="notes" href="/notes">Notes</a></li>
-        <li><a rel="tags" href="/tags">Tags</a></li> 
+        <li><a href="/users">Users</a></li>
+        <li><a href="/notes">Notes</a></li>
+        <li><a href="/tags">Tags</a></li> 
     </ul>
     
     <h2>Search</h2>
     <form action="/search" method="GET" title="Search form">
-        <label>Query: <input id="query" name="q" type="search"/></label>
-        <label>Tags:  <input id="tags"  name="t" type="text"  /></label>
-        <label>Users: <input id="users" name="u" type="text"  /></label>
+        <label for="query">Query:</label>
+        <input id="query" name="q" type="search" autocomplete="on" autofocus=""/>
+        
+        <label for="tags">Tags:</label>
+        <input id="tags" name="t" type="text"/>
+
+        <label for="users">Users:</label>
+        <input id="users" name="u" type="text"/>
+        
         <input type="submit"/>
     </form>
 </body>

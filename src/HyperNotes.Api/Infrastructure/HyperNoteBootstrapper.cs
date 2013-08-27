@@ -37,7 +37,8 @@ namespace HyperNotes.Api.Infrastructure {
             get {
                 var responseProcessors = new[] {
                     typeof (CollectionJsonProcessor),
-                    typeof (HtmlProcessor)
+                    typeof (HtmlProcessor),
+                    typeof (MarkdownProcessor)
                 };
 
                 return NancyInternalConfiguration
