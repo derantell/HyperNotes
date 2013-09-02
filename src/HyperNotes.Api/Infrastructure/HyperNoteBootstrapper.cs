@@ -36,8 +36,9 @@ namespace HyperNotes.Api.Infrastructure {
         {
             get {
                 var responseProcessors = new[] {
-                    typeof (CollectionJsonProcessor),
                     typeof (HtmlProcessor),
+                    typeof (CollectionJsonProcessor),
+                    typeof (AtomProcessor),
                     typeof (MarkdownProcessor)
                 };
 

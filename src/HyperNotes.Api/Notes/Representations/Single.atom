@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Notes</title>
+  <link href="@Path['~/notes']" rel="self"/>
+  <link href="@Path['~/notes.json']" rel="alternate" type="application/vnd.collection+json"/>
+  <link href="@Path['~/notes.html']" rel="alternate" type="text/html"/>
+  <updated>@Model.ModifiedRfc3339</updated>
+  <id>@Path['~/notes']</id>
+
+  <entry>
+    <title>@Model.Note.Title</title>
+    <link href="@Path['~/notes/@Model.Note.Slug']" rel="self"/>
+    <link href="@Path['~/notes/@Model.Note.Slug;.json']" rel="alternate" type="application/vnd.collection+json"/>
+    <link href="@Path['~/notes/@Model.Note.Slug;.html']" rel="alternate" type="text/html"/>
+    <link href="@Path['~/notes/@Model.Note.Slug;.md']" rel="alternate" type="text/x-markdown"/>
+    <id>@Path['~/notes/@Model.Note.Slug']</id>
+    <updated>@Model.ModifiedRfc3339</updated>
+    <published>@Model.CreatedRfc3339</published>
+    @Each.Note.Tags
+    <category term="@Current"/>
+    @EndEach
+    <content type="text/x-markdown">
+      @!Model.Note.MarkdownText
+    </content>
+  </entry>
+</feed>

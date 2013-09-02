@@ -51,6 +51,27 @@ namespace HyperNotes.Api.Infrastructure {
             };
         }
     }
+
+    public class AtomProcessor : HyperNotesViewProcessor {
+        public AtomProcessor(IViewFactory viewFactory) :
+            base(viewFactory, "application/atom+xml", "atom") {
+            
+        }
+
+        public override ProcessorMatch CanProcess(MediaRange requestedMediaRange, dynamic model, NancyContext context) {
+            var isExactResult = requestedMediaRange.Matches(ContentType) 
+                || requestedMediaRange.Matches("application/xml")
+                || requestedMediaRange.Matches("text/xml");
+
+            return new ProcessorMatch {
+                ModelResult = MatchResult.DontCare,
+                RequestedContentTypeResult = isExactResult ? MatchResult.ExactMatch : MatchResult.NoMatch
+            };
+        }
+    }
+
+
+
     public abstract class HyperNotesViewProcessor : IResponseProcessor {
         
         protected readonly IViewFactory ViewFactory;
