@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Hypernotes</title>
@@ -18,13 +18,13 @@
     <h2>Search</h2>
     <form action="/search" method="GET" title="Search form">
         <label for="query">Query:</label>
-        <input id="query" name="q" type="search" autocomplete="on" autofocus=""/>
+        <input id="query" name="q" type="search" title="query phrase" />
         
         <label for="tags">Tags:</label>
-        <input id="tags" name="t" type="text"/>
+        <input id="tags" name="t" type="text" title="tag filter"/>
 
         <label for="users">Users:</label>
-        <input id="users" name="u" type="text"/>
+        <input id="users" name="u" type="text" title="user filter"/>
         
         <input type="submit"/>
     </form>

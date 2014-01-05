@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using HyperNotes.Api.Infrastructure;
 using HyperNotes.Api.Persistance;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Responses;
 using Nancy.Security;
 
 namespace HyperNotes.Api.Users {
@@ -55,10 +57,14 @@ namespace HyperNotes.Api.Users {
                     db.Store(user);
                     db.SaveChanges();
 
-                    return new Response()
-                        .WithStatusCode(HttpStatusCode.Created)
-                        .WithContentType(null)
-                        .WithHeader( "Location", Context.GetAbsoluteUrl( "users", user.UserName ));
+                    var url = Context.GetAbsoluteUrl("users", user.UserName);
+                    var message = string.Format("User {0} created at {1}", user.UserName, url);
+
+                    return new TextResponse(
+                        HttpStatusCode.Created,
+                        message,
+                        headers: new Dictionary<string, string> {{"Location", url}})
+                        .WithContentType(null);
                 }
             };
 
@@ -72,6 +78,7 @@ namespace HyperNotes.Api.Users {
             Put["/{name}"] = param => {
                 var resourceName = (string)param.name;
                 var requestData = this.Bind<UserDto>();
+                requestData.UserName = resourceName;
 
                 if (!requestData.IsValid()) {
                     return Negotiate.WithError(HttpStatusCode.BadRequest,
@@ -86,7 +93,7 @@ namespace HyperNotes.Api.Users {
                         return Negotiate.WithError(HttpStatusCode.NotFound, "No such user");
                     }
 
-                    if (!UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, resourceName)) {
+                    if (!Context.CurrentUser.OwnsResource(user)) {
                         return Negotiate.WithError(HttpStatusCode.Forbidden, "Forbidden");
                     }
 
@@ -100,9 +107,9 @@ namespace HyperNotes.Api.Users {
                     db.SaveChanges();
 
                     return Negotiate
-                        .WithModel(user)
-                        .WithHeaders( db.GetCacheHeaders(user) )
-                        .WithView("Users/Representations/Single");
+                        .WithModel  (user)
+                        .WithHeaders(db.GetCacheHeaders(user))
+                        .WithView   ("Users/Representations/Single");
                 }
             };
 
@@ -110,7 +117,7 @@ namespace HyperNotes.Api.Users {
                 var resourceName = (string)param.name;
 
                 using (var db = RavenDb.Store.OpenSession()) {
-                    if (!UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, resourceName)) {
+                    if (!Context.CurrentUser.Equals(resourceName)) {
                         return Negotiate.WithError(HttpStatusCode.Forbidden, "Forbidden");
                     }
 
@@ -121,7 +128,7 @@ namespace HyperNotes.Api.Users {
                         db.SaveChanges();
                     }
 
-                    return HttpStatusCode.OK;
+                    return HttpStatusCode.NoContent;
                 }
             };
         }

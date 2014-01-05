@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using HyperNotes.Api.Notes;
 using HyperNotes.Api.Persistance;
 using HyperNotes.Api.Users;
 using Nancy.Authentication.Basic;
@@ -36,8 +37,12 @@ namespace HyperNotes.Api.Infrastructure {
             }
         }
 
-        public static bool IsLoggedInUser(string loggedInUser, string user) {
-            return loggedInUser == user;
+        public static bool OwnsResource(this IUserIdentity self, Note note) {
+            return self.UserName.Equals(note.Owner);
+        }
+
+        public static bool OwnsResource(this IUserIdentity self, User user) {
+            return self.UserName.Equals(user.UserName);
         }
 
         public static bool IsValidUsername(string username) {

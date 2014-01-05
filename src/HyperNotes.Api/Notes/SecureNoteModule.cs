@@ -51,7 +51,7 @@ namespace HyperNotes.Api.Notes {
                         return new NoBodyResponse();
                     }
 
-                    if (!UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, note.Owner)) {
+                    if (!Context.CurrentUser.OwnsResource(note)) {
                         return Negotiate.WithError(HttpStatusCode.Forbidden, "Cannot delete other user's note");
                     }
 
@@ -72,7 +72,7 @@ namespace HyperNotes.Api.Notes {
                         return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");
                     }
 
-                    var isOwner = UserValidationHelper.IsLoggedInUser(Context.CurrentUser.UserName, note.Owner);
+                    var isOwner = Context.CurrentUser.OwnsResource(note);
                     if (!isOwner && note.IsPrivate) {
                         return Negotiate.WithError(HttpStatusCode.NotFound, "No such note");
                     }

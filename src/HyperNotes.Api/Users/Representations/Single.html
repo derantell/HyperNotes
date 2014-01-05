@@ -7,19 +7,21 @@
     <link href="/users" rel="collection"/>
 </head>
 <body>
-    <form action="/users/@Model.UserName" method="put" enctype="application/x-www-form-urlencoded">
+    <form action="/users/@Model.UserName" method="POST" enctype="application/x-www-form-urlencoded">
         <label for="email">Email:</label>
         <input name="email" type="email" id="email" value="@Model.Email"/>
         <label for="password">Password:</label>
         <input name="password" type="password" id="password" value=""/>
+        <input name="X-HTTP-Method-Override" type="hidden" value="PUT"/>
         <input type="submit" value="update"/>
     </form>
     
-    <form action="/users/@Model.UserName" method="delete">
+    <form action="/users/@Model.UserName" method="POST">
+        <input name="X-HTTP-Method-Override" type="hidden" value="DELETE"/>
         <input type="submit" value="delete"/>
     </form>
 
-    <div class="vcard">
+    <div profile="http://microformats.org/wiki/hcard" class="vcard">
         <span class="fn nickname">@Model.UserName</span>   
         <a href="mailto:@Model.Email" class="email">@Model.Email</a>
     </div>

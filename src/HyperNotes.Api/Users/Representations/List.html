@@ -6,17 +6,24 @@
     <title>Users</title>
 </head>
 <body>
+    <h1>Users</h1>
+
+    <h2>Create new user</h2>
     <form action="/users" method="post" enctype="application/x-www-form-urlencoded" title="Create new user">
         <label for="username">Name:</label>
         <input name="username" type="text" id="username"/>
+
         <label for="email">Email:</label>
         <input name="email" type="email" id="email"/>
+
         <label for="password">Password:</label>
         <input name="password" type="password" id="password"/>
+
         <input type="submit" value="create"/>
     </form>
     
     @IfNot.IsEmpty
+    <h2>Current users</h2>
     <ul title="users">
         @Each.All
         <li>
