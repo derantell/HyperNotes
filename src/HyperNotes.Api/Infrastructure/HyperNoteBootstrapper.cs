@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using AutoMapper;
+using ConfigR;
 using HyperNotes.Api.Notes;
 using HyperNotes.Api.Persistance;
 using HyperNotes.Api.Users;
@@ -21,8 +22,10 @@ namespace HyperNotes.Api.Infrastructure {
                     realm: "HyperNotes"
                 )
             );
+
+            var ravenUrl = Configurator.Get<string>("Raven:Url") ?? "http://derantell-pc:8080" ;
             
-            RavenDb.Init("http://derantell-pc:8080");
+            RavenDb.Init(ravenUrl);
             
             Mapper.CreateMap<UserDto, User>();
             Mapper.CreateMap<NoteDto, Note>()
